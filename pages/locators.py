@@ -12,3 +12,7 @@ class LoginPageLocators():
 
 class ProductPageLocators():
     ADD_PRODUCT_LINK = (By.XPATH, '//*[@id="add_to_basket_form"]/button')
+    NOTIFICATION_PRICE = (By.XPATH, '//*[@id="messages"]/div[3]/div/p[1]')
+    BOOK_TITLE = (By.XPATH, '/html/body/div[2]/div/div[2]/div[2]/article/div[1]/div[2]/h1')
+    PRICE = (By.XPATH, '//*[@id="content_inner"]/article/div[1]/div[2]/p[1]')
+    NOTIFICATION_TITLE = (By.XPATH, '//*[@id="messages"]/div[1]/div')

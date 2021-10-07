@@ -2,13 +2,15 @@ from .base_page import BasePage
 from .locators import ProductPageLocators
 from selenium.common.exceptions import NoAlertPresentException  # в начале файла
 import math
+import time
 
 
 
 
 class ProductPage(BasePage):
     def add_to_busket(self):
-        add_link = self.browser.find_element(*ProductPageLocators.ADD_PRODUCT_LINK).click()
+        add_link = self.browser.find_element(*ProductPageLocators.ADD_PRODUCT_LINK)
+        add_link.click()
 
 
 
@@ -25,3 +27,19 @@ class ProductPage(BasePage):
             alert.accept()
         except NoAlertPresentException:
             print("No second alert presented")
+
+    def assert_price(self):
+        price = self.browser.find_element(*ProductPageLocators.PRICE).text
+        notification_text = self.browser.find_element(*ProductPageLocators.NOTIFICATION_PRICE).text
+        my_notification = 'Your basket total is now ' + price
+        assert notification_text == my_notification
+
+    def assert_title(self):
+        title = self.browser.find_element(*ProductPageLocators.BOOK_TITLE).text
+        notification_text = self.browser.find_element(*ProductPageLocators.NOTIFICATION_TITLE).text
+        my_notification = title + ' has been added to your basket.'
+        assert notification_text == my_notification
+
+
+
+
