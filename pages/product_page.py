@@ -1,6 +1,6 @@
 from .base_page import BasePage
 from .locators import ProductPageLocators
-from selenium.common.exceptions import NoAlertPresentException  # в начале файла
+from selenium.common.exceptions import NoAlertPresentException
 import math
 import time
 
@@ -13,32 +13,28 @@ class ProductPage(BasePage):
         add_link.click()
 
 
+    def should_not_be_success_message(self):
+        assert self.is_not_element_present(*ProductPageLocators.NOTIFICATION_TITLE), \
+            "Success message is presented, but should not be"
 
-    def solve_quiz_and_get_code(self):
-        alert = self.browser.switch_to.alert
-        x = alert.text.split(" ")[2]
-        answer = str(math.log(abs((12 * math.sin(float(x))))))
-        alert.send_keys(answer)
-        alert.accept()
-        try:
-            alert = self.browser.switch_to.alert
-            alert_text = alert.text
-            print(f"Your code: {alert_text}")
-            alert.accept()
-        except NoAlertPresentException:
-            print("No second alert presented")
+
+    def succes_message_should_be_disappeared(self):
+        assert self.is_disappeared(*ProductPageLocators.NOTIFICATION_TITLE), \
+            "Succes message should be disappeared"
+
 
     def assert_price(self):
         price = self.browser.find_element(*ProductPageLocators.PRICE).text
         notification_text = self.browser.find_element(*ProductPageLocators.NOTIFICATION_PRICE).text
         my_notification = 'Your basket total is now ' + price
-        assert notification_text == my_notification
+        assert notification_text == my_notification('Busket price should be the same as book price')
+
 
     def assert_title(self):
         title = self.browser.find_element(*ProductPageLocators.BOOK_TITLE).text
         notification_text = self.browser.find_element(*ProductPageLocators.NOTIFICATION_TITLE).text
         my_notification = title + ' has been added to your basket.'
-        assert notification_text == my_notification
+        assert notification_text == my_notification('Book title in the busket should be the same as added book title')
 
 
 
